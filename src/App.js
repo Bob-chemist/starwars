@@ -8,7 +8,7 @@ import classes from './App.module.sass';
 class App extends Component {
   state = {
     showRandomPlanet: true,
-    selectedPerson: null,
+    selectedPerson: 1,
   };
 
   toggleRandomPlanet = () => {

@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import classes from './ItemList.module.sass';
 import StarWarAPI from '../../services/sw-service';
 import Loader from '../Loader';
+import ErrorIndicator from '../ErrorIndicator';
 
 export default class ItemList extends Component {
   swapiService = new StarWarAPI();
 
   state = {
     peopleList: null,
+    loading: true,
+    error: false,
   };
 
   componentDidMount() {
@@ -16,10 +19,18 @@ export default class ItemList extends Component {
       .then(peopleList => {
         this.setState({
           peopleList,
+          loading: false,
         });
       })
-      .catch();
+      .catch(this.onError);
   }
+
+  onError = () => {
+    this.setState({
+      error: true,
+      loading: false,
+    });
+  };
 
   renderItems(arr) {
     return arr.map(({ id, name }) => {
@@ -36,11 +47,17 @@ export default class ItemList extends Component {
   }
 
   render() {
-    const { peopleList } = this.state;
-    if (!peopleList) return <Loader />;
+    const { peopleList, error, loading } = this.state;
+
     return (
       <ul className={`${classes.ItemList} list-group`}>
-        {this.renderItems(peopleList)}
+        {error ? (
+          <ErrorIndicator />
+        ) : loading ? (
+          <Loader />
+        ) : (
+          this.renderItems(peopleList)
+        )}
       </ul>
     );
   }
