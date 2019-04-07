@@ -1,24 +1,22 @@
 import React, { Component } from 'react';
 import classes from './ItemList.module.sass';
-import StarWarAPI from '../../services/sw-service';
+
 import Loader from '../Loader';
 import ErrorIndicator from '../ErrorIndicator';
 
 export default class ItemList extends Component {
-  swapiService = new StarWarAPI();
-
   state = {
-    peopleList: null,
+    itemList: null,
     loading: true,
     error: false,
   };
 
   componentDidMount() {
-    this.swapiService
-      .getAllPeople()
-      .then(peopleList => {
+    const { getData } = this.props;
+    getData()
+      .then(itemList => {
         this.setState({
-          peopleList,
+          itemList,
           loading: false,
         });
       })
@@ -33,21 +31,23 @@ export default class ItemList extends Component {
   };
 
   renderItems(arr) {
-    return arr.map(({ id, name }) => {
+    return arr.map(item => {
+      const { id } = item;
+      const label = this.props.renderItem(item);
       return (
         <li
           key={id}
           className={`list-group-item ${classes.ListGroupItem}`}
           onClick={() => this.props.onItemSelected(id)}
         >
-          {name}
+          {label}
         </li>
       );
     });
   }
 
   render() {
-    const { peopleList, error, loading } = this.state;
+    const { itemList, error, loading } = this.state;
 
     return (
       <ul className={`${classes.ItemList} list-group`}>
@@ -56,7 +56,7 @@ export default class ItemList extends Component {
         ) : loading ? (
           <Loader />
         ) : (
-          this.renderItems(peopleList)
+          this.renderItems(itemList)
         )}
       </ul>
     );

@@ -1,5 +1,6 @@
 import React from 'react';
 import classes from './PersonDetails.module.sass';
+import ErrorButton from '../ErrorButton';
 
 const PersonDetailView = ({ person }) => {
   const { id, name, gender, birthYear, eyeColor } = person;
@@ -10,7 +11,6 @@ const PersonDetailView = ({ person }) => {
         src={`https://starwars-visualguide.com/assets/img/characters/${id}.jpg`}
         alt={name}
       />
-
       <div className="card-body">
         <h4>{name}</h4>
         <ul className="list-group list-group-flush">
@@ -27,6 +27,7 @@ const PersonDetailView = ({ person }) => {
             <span>{eyeColor}</span>
           </li>
         </ul>
+        <ErrorButton />
       </div>
     </>
   );
