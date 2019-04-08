@@ -1,5 +1,6 @@
 export default class StarWarAPI {
   _apiBase = 'https://swapi.co/api/';
+  _imageBase = 'https://starwars-visualguide.com/assets/img';
 
   getResourse = async url => {
     const res = await fetch(`${this._apiBase + url}`);
@@ -17,8 +18,6 @@ export default class StarWarAPI {
 
   getPerson = async id => {
     const person = await this.getResourse(`people/${id}/`);
-    console.log(person);
-
     return this._transformPerson(person);
   };
 
@@ -42,6 +41,20 @@ export default class StarWarAPI {
     return this._transformStarship(starship);
   };
 
+  getPersonImage = ({ id }) => {
+    return `${this._imageBase}/characters/${id}.jpg`;
+  };
+
+  getStarshipImage = ({ id }) => {
+    console.log('starship', id);
+
+    return `${this._imageBase}/starships/${id}.jpg`;
+  };
+
+  getPlanetImage = ({ id }) => {
+    return `${this._imageBase}/planets/${id}.jpg`;
+  };
+
   _extractId = item => {
     const idRegExp = /\/([0-9]*)\/$/;
     return item.url.match(idRegExp)[1];
@@ -63,11 +76,11 @@ export default class StarWarAPI {
       name: starship.name,
       model: starship.model,
       manufacturer: starship.manufacturer,
-      costInCredits: starship.costInCredits,
+      costInCredits: starship.cost_in_credits,
       length: starship.length,
       crew: starship.crew,
       passengers: starship.passengers,
-      cargoCapacity: starship.cargoCapacity,
+      cargoCapacity: starship.cargo_capacity,
     };
   };
 

@@ -1,16 +1,12 @@
 import React from 'react';
-import classes from './PersonDetails.module.sass';
+import classes from './ItemDetails.module.sass';
 import ErrorButton from '../ErrorButton';
 
-const PersonDetailView = ({ person }) => {
-  const { id, name, gender, birthYear, eyeColor } = person;
+const ItemDetailView = ({ item, image }) => {
+  const { name, gender, birthYear, eyeColor } = item;
   return (
     <>
-      <img
-        className={classes.PersonImage}
-        src={`https://starwars-visualguide.com/assets/img/characters/${id}.jpg`}
-        alt={name}
-      />
+      <img className={classes.ItemImage} src={image} alt={name} />
       <div className="card-body">
         <h4>{name}</h4>
         <ul className="list-group list-group-flush">
@@ -33,4 +29,4 @@ const PersonDetailView = ({ person }) => {
   );
 };
 
-export default PersonDetailView;
+export default ItemDetailView;
