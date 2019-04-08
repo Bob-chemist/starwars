@@ -30,26 +30,29 @@ class App extends Component {
   }
 
   render() {
-    if (this.state.hasError) return <ErrorIndicator />;
+    const planet = this.state.showRandomPlanet ? <RandomPlanet /> : null;
 
     const {
       getPerson,
       getStarship,
       getPersonImage,
       getStarshipImage,
+      getAllPeople,
+      getAllPlanets,
     } = this.swapiService;
 
     const personDetails = (
-      <ItemDetails itemId={11} getData={getPerson} getImageURL={getPersonImage}>
+      <ItemDetails itemId={11} getData={getPerson} getImageUrl={getPersonImage}>
         <Record field="gender" label="Gender" />
         <Record field="eyeColor" label="Eye Color" />
       </ItemDetails>
     );
+
     const starshipDetails = (
       <ItemDetails
         itemId={5}
         getData={getStarship}
-        getImageURL={getStarshipImage}
+        getImageUrl={getStarshipImage}
       >
         <Record field="model" label="Model" />
         <Record field="length" label="Length" />
@@ -58,39 +61,16 @@ class App extends Component {
     );
 
     return (
-      <div className={classes.App}>
+      <div className="stardb-app">
         <Header />
-        {/* {this.state.showRandomPlanet ? <RandomPlanet /> : null}
 
-        <div className="row mb2 button-row">
-          <div className="col-8">
-            <button
-              className={`${classes.TogglePlanet} btn btn-warning btn-lg`}
-              onClick={this.toggleRandomPlanet}
-            >
-              Toggle Random Planet
-            </button>
-            <ErrorButton />
-          </div>
-        </div>
+        <ItemList getData={getAllPeople} onItemSelected={() => {}}>
+          {({ name }) => <span>{name}</span>}
+        </ItemList>
 
-        <PeoplePage /> */}
-
-        <Row left={personDetails} right={starshipDetails} />
-        {/*
-        <div className="row mb2">
-          <div className="col-md-6">
-            <ItemList
-              onItemSelected={this.onPersonSelected}
-              getData={this.swapiService.getAllStarships}
-            >
-              {({ name, model }) => `${name} - ${model}`}
-            </ItemList>
-          </div>
-          <div className="col-md-6">
-            <PersonDetails personId={this.state.selectedPerson} />
-          </div>
-        </div> */}
+        <ItemList getData={getAllPlanets} onItemSelected={() => {}}>
+          {({ name }) => <span>{name}</span>}
+        </ItemList>
       </div>
     );
   }

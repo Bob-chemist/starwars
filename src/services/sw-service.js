@@ -46,8 +46,6 @@ export default class StarWarAPI {
   };
 
   getStarshipImage = ({ id }) => {
-    console.log('starship', id);
-
     return `${this._imageBase}/starships/${id}.jpg`;
   };
 

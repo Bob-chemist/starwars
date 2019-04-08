@@ -1,64 +1,27 @@
-import React, { Component } from 'react';
+import React from 'react';
 import classes from './ItemList.module.sass';
+import StarWarAPI from '../../services/sw-service';
+import withData from '../../hoc/withData';
 
-import Loader from '../Loader';
-import ErrorIndicator from '../ErrorIndicator';
+const ItemList = props => {
+  const { data, onItemSelected, children: renderLabel } = props;
 
-export default class ItemList extends Component {
-  state = {
-    itemList: null,
-    loading: true,
-    error: false,
-  };
-
-  componentDidMount() {
-    const { getData } = this.props;
-    getData()
-      .then(itemList => {
-        this.setState({
-          itemList,
-          loading: false,
-        });
-      })
-      .catch(this.onError);
-  }
-
-  onError = () => {
-    this.setState({
-      error: true,
-      loading: false,
-    });
-  };
-
-  renderItems(arr) {
-    return arr.map(item => {
-      const { id } = item;
-      const label = this.props.children(item);
-      return (
-        <li
-          key={id}
-          className={`list-group-item ${classes.ListGroupItem}`}
-          onClick={() => this.props.onItemSelected(id)}
-        >
-          {label}
-        </li>
-      );
-    });
-  }
-
-  render() {
-    const { itemList, error, loading } = this.state;
-
+  const items = data.map(item => {
+    const { id } = item;
+    const label = renderLabel(item);
     return (
-      <ul className={`${classes.ItemList} list-group`}>
-        {error ? (
-          <ErrorIndicator />
-        ) : loading ? (
-          <Loader />
-        ) : (
-          this.renderItems(itemList)
-        )}
-      </ul>
+      <li
+        key={id}
+        className={`list-group-item ${classes.ListGroupItem}`}
+        onClick={() => onItemSelected(id)}
+      >
+        {label}
+      </li>
     );
-  }
-}
+  });
+  return <ul className={`${classes.ItemList} list-group`}>{items}</ul>;
+};
+
+const { getAllPeople } = new StarWarAPI();
+
+export default withData(ItemList, getAllPeople);
