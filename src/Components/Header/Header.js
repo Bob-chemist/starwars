@@ -1,7 +1,7 @@
 import React from 'react';
 import classes from './Header.module.sass';
 
-const Header = () => {
+const Header = ({ onServiceChange }) => {
   return (
     <div className={`${classes.Header} d-flex`}>
       <h3>
@@ -18,6 +18,12 @@ const Header = () => {
           <a href="#">Starships</a>
         </li>
       </ul>
+      <button
+        className={`btn btn-pimary btn-sm ${classes.button}`}
+        onClick={onServiceChange}
+      >
+        Change
+      </button>
     </div>
   );
 };

@@ -1,54 +1,43 @@
 import React, { Component } from 'react';
 import Header from './Components/Header';
 import RandomPlanet from './Components/RandomPlanet';
-import Row from './Containers/Row';
-import StarWarAPI from './services/sw-service';
+import { StarWarAPI, DummyStarWarAPI } from './services';
 import ErrorBoundry from './Containers/ErrorBoundry';
 import { SwapiServiceProvider } from './Components/SwapiServiceContext';
-import {
-  PersonList,
-  PlanetList,
-  StarshipList,
-  PersonDetails,
-  PlanetDetails,
-  StarshipDetails,
-} from './Components/SWComponents';
+import classes from './App.module.sass';
+import { PeoplePage, PlanetsPage, StarshipsPage } from './Containers/Pages';
 
 class App extends Component {
-  swapiService = new StarWarAPI();
-
   state = {
-    showRandomPlanet: true,
     hasError: false,
-  };
-
-  toggleRandomPlanet = () => {
-    this.setState(state => {
-      return {
-        showRandomPlanet: !state.showRandomPlanet,
-      };
-    });
+    swapiService: new StarWarAPI(),
   };
 
   componentDidCatch() {
     this.setState({ hasError: true });
   }
 
-  render() {
-    const planet = this.state.showRandomPlanet ? <RandomPlanet /> : null;
+  onServiceChange = () => {
+    this.setState(({ swapiService }) => {
+      const Service =
+        swapiService instanceof StarWarAPI ? DummyStarWarAPI : StarWarAPI;
+      return {
+        swapiService: new Service(),
+      };
+    });
+  };
 
+  render() {
     return (
       <ErrorBoundry>
-        <SwapiServiceProvider value={this.swapiService}>
-          <div className="stardb-app">
-            <Header />
-            {planet}
-            <Row left={<PersonList />} right={<PersonDetails itemId={1} />} />
-            <Row
-              left={<StarshipList />}
-              right={<StarshipDetails itemId={5} />}
-            />
-            <Row left={<PlanetList />} right={<PlanetDetails itemId={5} />} />
+        <SwapiServiceProvider value={this.state.swapiService}>
+          <div className={classes.App}>
+            <Header onServiceChange={this.onServiceChange} />
+            <RandomPlanet />
+            <PeoplePage />
+
+            <PlanetsPage />
+            <StarshipsPage />
           </div>
         </SwapiServiceProvider>
       </ErrorBoundry>
