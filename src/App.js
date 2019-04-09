@@ -3,6 +3,8 @@ import Header from './Components/Header';
 import RandomPlanet from './Components/RandomPlanet';
 import Row from './Containers/Row';
 import StarWarAPI from './services/sw-service';
+import ErrorBoundry from './Containers/ErrorBoundry';
+import { SwapiServiceProvider } from './Components/SwapiServiceContext';
 import {
   PersonList,
   PlanetList,
@@ -14,6 +16,7 @@ import {
 
 class App extends Component {
   swapiService = new StarWarAPI();
+
   state = {
     showRandomPlanet: true,
     hasError: false,
@@ -35,12 +38,20 @@ class App extends Component {
     const planet = this.state.showRandomPlanet ? <RandomPlanet /> : null;
 
     return (
-      <div className="stardb-app">
-        <Header />
-        <Row left={<PersonList />} right={<PersonDetails itemId={1} />} />
-        <Row left={<StarshipList />} right={<StarshipDetails itemId={5} />} />
-        <Row left={<PlanetList />} right={<PlanetDetails itemId={5} />} />
-      </div>
+      <ErrorBoundry>
+        <SwapiServiceProvider value={this.swapiService}>
+          <div className="stardb-app">
+            <Header />
+            {planet}
+            <Row left={<PersonList />} right={<PersonDetails itemId={1} />} />
+            <Row
+              left={<StarshipList />}
+              right={<StarshipDetails itemId={5} />}
+            />
+            <Row left={<PlanetList />} right={<PlanetDetails itemId={5} />} />
+          </div>
+        </SwapiServiceProvider>
+      </ErrorBoundry>
     );
   }
 }

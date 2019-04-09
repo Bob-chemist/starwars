@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ErrorIndicator from '../Components/ErrorIndicator';
 import Loader from '../Components/Loader';
 
-const withData = (View, getData) => {
+const withData = View => {
   return class extends Component {
     state = {
       data: null,
@@ -11,7 +11,8 @@ const withData = (View, getData) => {
     };
 
     componentDidMount() {
-      getData()
+      this.props
+        .getData()
         .then(data => {
           this.setState({
             data,
