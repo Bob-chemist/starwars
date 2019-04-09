@@ -3,7 +3,6 @@ import classes from './ItemDetails.module.sass';
 import StarWarAPI from '../../services/sw-service';
 import Loader from '../Loader';
 import ErrorIndicator from '../ErrorIndicator';
-// import ItemDetailView from './ItemDetailView';
 import ErrorButton from '../ErrorButton';
 
 const Record = ({ item, field, label }) => {
@@ -40,6 +39,7 @@ export default class ItemDetails extends Component {
 
   updateItem() {
     const { itemId, getData, getImageURL } = this.props;
+
     if (!itemId) return;
     getData(itemId)
       .then(item => {
@@ -48,7 +48,6 @@ export default class ItemDetails extends Component {
           loading: false,
           image: getImageURL(item),
         });
-        console.log(this.state.image);
       })
       .catch(this.onError);
   }

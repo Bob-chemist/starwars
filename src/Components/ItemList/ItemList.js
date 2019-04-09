@@ -1,7 +1,5 @@
 import React from 'react';
 import classes from './ItemList.module.sass';
-import StarWarAPI from '../../services/sw-service';
-import withData from '../../hoc/withData';
 
 const ItemList = props => {
   const { data, onItemSelected, children: renderLabel } = props;
@@ -22,6 +20,4 @@ const ItemList = props => {
   return <ul className={`${classes.ItemList} list-group`}>{items}</ul>;
 };
 
-const { getAllPeople } = new StarWarAPI();
-
-export default withData(ItemList, getAllPeople);
+export default ItemList;
