@@ -6,6 +6,8 @@ import ErrorBoundry from './Containers/ErrorBoundry';
 import { SwapiServiceProvider } from './Components/SwapiServiceContext';
 import classes from './App.module.sass';
 import { PeoplePage, PlanetsPage, StarshipsPage } from './Containers/Pages';
+import { BrowserRouter, Route } from 'react-router-dom';
+import { StarshipDetails } from './Components/SWComponents';
 
 class App extends Component {
   state = {
@@ -31,14 +33,22 @@ class App extends Component {
     return (
       <ErrorBoundry>
         <SwapiServiceProvider value={this.state.swapiService}>
-          <div className={classes.App}>
-            <Header onServiceChange={this.onServiceChange} />
-            <RandomPlanet />
-            <PeoplePage />
-
-            <PlanetsPage />
-            <StarshipsPage />
-          </div>
+          <BrowserRouter>
+            <div className={classes.App}>
+              <Header onServiceChange={this.onServiceChange} />
+              <RandomPlanet />
+              <Route path="/" exact render={() => <h2>Welcome!!!</h2>} />
+              <Route path="/people" component={PeoplePage} />
+              <Route path="/planets" component={PlanetsPage} />
+              <Route path="/starships" exact component={StarshipsPage} />
+              <Route
+                path="/starships/:id"
+                render={({ match }) => {
+                  return <StarshipDetails itemId={match.params.id} />;
+                }}
+              />
+            </div>
+          </BrowserRouter>
         </SwapiServiceProvider>
       </ErrorBoundry>
     );
