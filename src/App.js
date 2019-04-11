@@ -38,7 +38,7 @@ class App extends Component {
               <Header onServiceChange={this.onServiceChange} />
               <RandomPlanet />
               <Route path="/" exact render={() => <h2>Welcome!!!</h2>} />
-              <Route path="/people" component={PeoplePage} />
+              <Route path="/people/:id?" component={PeoplePage} />
               <Route path="/planets" component={PlanetsPage} />
               <Route path="/starships" exact component={StarshipsPage} />
               <Route
