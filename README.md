@@ -8,7 +8,7 @@
 - Навигация - React Router (BrowserRouter, Route, Switch, NavLink, Redirect);
 - API - swapi.co и starwars-visualguide.com;
 - Sass-modules;
-- Компонент PlanetsPage переписан с использованием React hooks (useState);
+- Компоненты PlanetsPage и ErrorButton переписаны с использованием React hooks (useState). В компоненте ItemDetails использованы хуки useState и useEffect.
 - React Context API;
 
 ### Реализовано
@@ -20,9 +20,9 @@
 - Подготовка данных, пришедших с API в удобный формат;
 - Редирект между страницами Login и Secret в зависимости от значения isLoggedIn;
 - Использование React Context API;
+- Гамбургер-меню для маленьких экранов (бутстрап и жиквери - позор мне, посыпаю голову пеплом. Когда-нибудь поправлю);
+- Адаптив;
 
 ### ToDo
 
 - Переписать больше классовых компонентов на хуки;
-- Привести в порядок стили, добавить адаптив;
-- Добавить гамбургер-меню для маленьких экранов;

@@ -48,7 +48,10 @@ const ItemDetails = props => {
         <Loader />
       ) : (
         <>
-          <img className={classes.ItemImage} src={image} alt={item.name} />
+          <div className={classes.ItemImageWrapper}>
+            <img className={classes.ItemImage} src={image} alt={item.name} />
+          </div>
+
           <div className="card-body">
             <h4>{item.name}</h4>
             <ul className="list-group list-group-flush">
