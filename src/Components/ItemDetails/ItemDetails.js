@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import classes from './ItemDetails.module.sass';
-import StarWarAPI from '../../services/sw-service';
 import Loader from '../Loader';
 import ErrorIndicator from '../ErrorIndicator';
 import ErrorButton from '../ErrorButton';
@@ -16,77 +15,53 @@ const Record = ({ item, field, label }) => {
 
 export { Record };
 
-export default class ItemDetails extends Component {
-  swapiService = new StarWarAPI();
+const ItemDetails = props => {
+  const [item, setItem] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const [image, setImage] = useState(null);
 
-  state = {
-    item: null,
-    loading: true,
-    error: false,
-    image: null,
-  };
-
-  componentDidMount() {
-    this.updateItem();
-  }
-
-  componentDidUpdate(prevProps) {
-    if (
-      this.props.itemId !== prevProps.itemId ||
-      this.props.getData !== prevProps.getData ||
-      this.props.getImageURL !== prevProps.getImageURL
-    ) {
-      this.setState({ loading: true });
-      this.updateItem();
-    }
-  }
-
-  updateItem() {
-    const { itemId, getData, getImageURL } = this.props;
+  useEffect(() => {
+    const { itemId, getData, getImageURL } = props;
 
     if (!itemId) return;
+    setLoading(true);
     getData(itemId)
-      .then(item => {
-        this.setState({
-          item,
-          loading: false,
-          image: getImageURL(item),
-        });
+      .then(DataItem => {
+        setItem(DataItem);
+        setLoading(false);
+        setImage(getImageURL(DataItem));
       })
-      .catch(this.onError);
-  }
+      .catch(onError);
+  }, [props]);
 
-  onError = () => {
-    this.setState({
-      error: true,
-      loading: false,
-    });
+  const onError = () => {
+    setError(true);
+    setLoading(false);
   };
 
-  render() {
-    const { loading, error, item, image } = this.state;
+  return (
+    <div className={`${classes.ItemDetails} card`}>
+      {error ? (
+        <ErrorIndicator />
+      ) : loading ? (
+        <Loader />
+      ) : (
+        <>
+          <img className={classes.ItemImage} src={image} alt={item.name} />
+          <div className="card-body">
+            <h4>{item.name}</h4>
+            <ul className="list-group list-group-flush">
+              {React.Children.map(props.children, child => {
+                return React.cloneElement(child, { item });
+              })}
+            </ul>
+            <ErrorButton />
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
 
-    return (
-      <div className={`${classes.ItemDetails} card`}>
-        {error ? (
-          <ErrorIndicator />
-        ) : loading ? (
-          <Loader />
-        ) : (
-          <>
-            <img className={classes.ItemImage} src={image} alt={item.name} />
-            <div className="card-body">
-              <h4>{item.name}</h4>
-              <ul className="list-group list-group-flush">
-                {React.Children.map(this.props.children, child => {
-                  return React.cloneElement(child, { item });
-                })}
-              </ul>
-              <ErrorButton />
-            </div>
-          </>
-        )}
-      </div>
-    );
-  }
-}
+export default ItemDetails;
