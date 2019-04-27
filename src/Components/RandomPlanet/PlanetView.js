@@ -10,7 +10,7 @@ const PlanetView = ({ planet }) => {
         src={`https://starwars-visualguide.com/assets/img/planets/${id}.jpg`}
         alt={name}
       />
-      <div>
+      <div className={classes.PlanetDetails}>
         <h4>{name}</h4>
         <ul className={`list-group list-group-flush ${classes.ListGroup}`}>
           <li className={`list-group-item ${classes.ListGroupItem}`}>

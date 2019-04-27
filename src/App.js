@@ -4,7 +4,6 @@ import RandomPlanet from './Components/RandomPlanet';
 import { StarWarAPI, DummyStarWarAPI } from './services';
 import ErrorBoundry from './Containers/ErrorBoundry';
 import { SwapiServiceProvider } from './Components/SwapiServiceContext';
-import classes from './App.module.sass';
 import {
   PeoplePage,
   PlanetsPage,
@@ -47,14 +46,14 @@ class App extends Component {
       <ErrorBoundry>
         <SwapiServiceProvider value={this.state.swapiService}>
           <BrowserRouter>
-            <div className={classes.App}>
+            <div className="container">
               <Header onServiceChange={this.onServiceChange} />
               <RandomPlanet />
               <Switch>
                 <Route path="/" exact render={() => <h2>Welcome!!!</h2>} />
                 <Route path="/people/:id?" component={PeoplePage} />
-                <Route path="/planets" component={PlanetsPage} />
-                <Route path="/starships" exact component={StarshipsPage} />
+                <Route path="/planets/" component={PlanetsPage} />
+                <Route path="/starships/" exact component={StarshipsPage} />
                 <Route
                   path="/starships/:id"
                   render={({ match }) => {
@@ -62,7 +61,7 @@ class App extends Component {
                   }}
                 />
                 <Route
-                  path="/login"
+                  path="/login/"
                   render={() => (
                     <LoginPage
                       isLoggedIn={this.state.isLoggedIn}
@@ -71,7 +70,7 @@ class App extends Component {
                   )}
                 />
                 <Route
-                  path="/secret"
+                  path="/secret/"
                   render={() => (
                     <SecretPage isLoggedIn={this.state.isLoggedIn} />
                   )}
