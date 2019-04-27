@@ -41,7 +41,7 @@ const Header = ({ onServiceChange }) => {
         className={`btn btn-pimary btn-sm ${classes.button}`}
         onClick={onServiceChange}
       >
-        Change
+        Change API
       </button>
     </div>
   );
