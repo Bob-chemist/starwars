@@ -1,25 +1,16 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import Row from '../Row';
 import { PlanetList, PlanetDetails } from '../../Components/SWComponents';
 
-export default class PlanetsPage extends Component {
-  state = {
-    selectedItem: 5,
-  };
+const PlanetsPage = () => {
+  const [selectedItem, setSelectedItem] = useState(5);
 
-  onItemSelected = selectedItem => {
-    this.setState({
-      selectedItem,
-    });
-  };
+  return (
+    <Row
+      left={<PlanetList onItemSelected={setSelectedItem} />}
+      right={<PlanetDetails itemId={selectedItem} />}
+    />
+  );
+};
 
-  render() {
-    const { selectedItem } = this.state;
-    return (
-      <Row
-        left={<PlanetList onItemSelected={this.onItemSelected} />}
-        right={<PlanetDetails itemId={selectedItem} />}
-      />
-    );
-  }
-}
+export default PlanetsPage;
