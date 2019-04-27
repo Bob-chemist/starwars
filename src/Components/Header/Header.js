@@ -1,28 +1,40 @@
 import React from 'react';
 import classes from './Header.module.sass';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const Header = ({ onServiceChange }) => {
   return (
     <div className={`${classes.Header} d-flex`}>
       <h3>
-        <Link to="/">Star DB</Link>
+        <NavLink to="/" exact activeClassName={classes.active}>
+          Star DB
+        </NavLink>
       </h3>
       <ul className="d-flex">
         <li>
-          <Link to="/people/">People</Link>
+          <NavLink to="/people/" activeClassName={classes.active}>
+            People
+          </NavLink>
         </li>
         <li>
-          <Link to="/planets/">Planets</Link>
+          <NavLink to="/planets/" activeClassName={classes.active}>
+            Planets
+          </NavLink>
         </li>
         <li>
-          <Link to="/starships/">Starships</Link>
+          <NavLink to="/starships/" activeClassName={classes.active}>
+            Starships
+          </NavLink>
         </li>
         <li>
-          <Link to="/login">LoginPage</Link>
+          <NavLink to="/login" activeClassName={classes.active}>
+            LoginPage
+          </NavLink>
         </li>
         <li>
-          <Link to="/secret">Secret</Link>
+          <NavLink to="/secret" activeClassName={classes.active}>
+            Secret
+          </NavLink>
         </li>
       </ul>
       <button
